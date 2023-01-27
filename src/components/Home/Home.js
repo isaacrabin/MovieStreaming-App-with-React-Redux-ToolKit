@@ -3,9 +3,12 @@ import MoovieList from '../MoovieList/MoovieList';
 import './Home.scss'
 import moovieApi from '../../common/api/moovieApi';
 import {ApiKey} from '../../common/api/moovieApiKey'
+import { useDispatch } from 'react-redux';
+import { addMovies } from '../../features/movies/movieSlice';
 
 function Home() {
   const movieText = 'Mary';
+  const dispatch = useDispatch();
   useEffect(()=>{
     const fetchMoovies = async () =>{
       const response = await moovieApi
@@ -13,8 +16,8 @@ function Home() {
       .catch((err)=>{
         console.log(err)
       });
-
-      console.log('Response from the API: ',response);
+      dispatch(addMovies(response.data))
+      // console.log('Response from the API: ',response);
     };
     fetchMoovies();
   },[])
